@@ -54,8 +54,8 @@ public:
         qlist = original;
     }
 
-    // start of mergesort/quicksort functions line 245, jump to line 313 for class sort functions, past line 482 are filter functions,
-    // and recommend function on line 587
+    // start of mergesort/quicksort functions line 229, jump to line 30 for class sort functions, past line 469 are filter functions,
+    // and recommend function on line 573
 
 
     // functions for parsing
@@ -224,30 +224,10 @@ public:
         }
     }
 
-    // calling parsing functions for Movie class
-
-    vector<Movie> movies; // vector of movie objects
-    unordered_map<string, double> ratingsMap;
-    unordered_map<string, vector<string>> directorMap;
-    unordered_map<string, vector<string>> writerMap;
-    unordered_map<string, string> namesMap;
-
-    // ratingsMap from title.ratings.tsv
-    populateRatingsMap("title.ratings.tsv", ratingsMap);
-
-    // directorMap and writerMap from title.crew.tsv
-    parseCrewFile("title.crew.tsv", directorMap, writerMap);
-
-    // namesMap from name.basics.tsv
-    populateNamesMap("name.basics.tsv", namesMap);
-
-    // parse title.basics.tsv and create Movie objects
-    parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap, movies);
 
 
-
-    // start of mergesort/quicksort functions, jump to line 313 for class sort functions, past line 482 are filter functions,
-    // and recommend function on line 587
+    // start of mergesort/quicksort functions, jump to line 300 for class sort functions, past line 469 are filter functions,
+    // and recommend function on line 573
 
     void merge(vector<Movie>& list, int left, int mid, int right, function<bool(const Movie&, const Movie&)> comparator) {
         int leftside = mid - left + 1;

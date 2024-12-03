@@ -1,5 +1,7 @@
 #include "movie.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -23,7 +25,28 @@ void displayMovies(vector<Movie>& movies){
 }
 
 int main(){
-  bool exit = false;
+
+    // calling parsing functions for Movie class
+
+    vector<Movie> movies; // vector of movie objects
+    unordered_map<string, double> ratingsMap;
+    unordered_map<string, vector<string>> directorMap;
+    unordered_map<string, vector<string>> writerMap;
+    unordered_map<string, string> namesMap;
+
+    // ratingsMap from title.ratings.tsv
+    populateRatingsMap("title.ratings.tsv", ratingsMap);
+
+    // directorMap and writerMap from title.crew.tsv
+    parseCrewFile("title.crew.tsv", directorMap, writerMap);
+
+    // namesMap from name.basics.tsv
+    populateNamesMap("name.basics.tsv", namesMap);
+
+    // parse title.basics.tsv and create Movie objects
+    parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap, movies);
+
+    bool exit = false;
   while(!exit){
     displayMenu();
     int choice;
