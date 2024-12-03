@@ -1,4 +1,33 @@
 <H1> COP3530 - Project 3 </h1>
+
+<h2> Instructions: </h2> 
+In Git Bash, run these lines to download the datasets:
+<ul>
+<li>chmod +x setup.sh</li>
+<li>./setup.sh</li>
+</ul>
+The files will now appear in the project folder.
+
+Now run these lines in Git Bash to decompress the .tsv.gz to .tsv
+<ul>
+<li>gzip -d title.basics.tsv.gz</li>
+<li>gzip -d title.crew.tsv.gz</li>
+<li>gzip -d title.ratings.tsv.gz</li>
+<li>gzip -d name.basics.tsv</li>
+</ul>
+
+If the steps above do not work, you can manually visit these 4 websites, it will download the datasets. 
+Then manually unzip them and move to the project folder.
+
+https://datasets.imdbws.com/title.basics.tsv.gz
+
+https://datasets.imdbws.com/title.ratings.tsv.gz
+
+https://datasets.imdbws.com/title.crew.tsv.gz
+
+https://datasets.imdbws.com/name.basics.tsv.gz
+
+<br><br><br><br>
 This is the template for Project 3 repositories. It includes all the assignment instructions and documentation to help you use GitHub.
 
 <h2> Table of Contents </h2>
