@@ -14,13 +14,13 @@ using namespace std;
 class Movie {
 public:
     string title;
-    unordered_map<string, bool> genre;
+    vector<string> genre;
     double rating;
     int year;
-    unordered_map<string, bool> director;
-    unordered_map<string, bool> writer;
+    vector<string> director;
+    vector<string> writer;
 public:
-    Movie(string titl, unordered_map<string, bool> genres, double rate, int yr, unordered_map<string, bool> drctr, unordered_map<string, bool> wrtr) {
+    Movie(string titl, vector<string> genres, double rate, int yr, vector<string> drctr, vector<string> wrtr) {
         title = titl;
         genre = genres;
         rating = rate;
@@ -51,7 +51,8 @@ public:
         qlist = original;
     }
 
-    // start of mergesort/quicksort functions, jump to line 131 for class sort functions, past line 285 are filter functions
+    // start of mergesort/quicksort functions, jump to line 125 for class sort functions, past line 297 are filter functions,
+    // and recommend function on line 399
 
     void merge(vector<Movie>& list, int left, int mid, int right, function<bool(const Movie&, const Movie&)> comparator) {
         int leftside = mid - left + 1;
@@ -163,9 +164,11 @@ public:
     }
     double sortbygenremerge(const std::string& inpgenre) {
         auto comparegenre = [&inpgenre](const Movie& mv1, const Movie& mv2) -> bool {
-            if (mv1.genre.count(inpgenre) && !mv2.genre.count(inpgenre)) {
+            bool mv1genre = find(mv1.genre.begin(), mv1.genre.end(), inpgenre) != mv1.genre.end();
+            bool mv2genre = find(mv2.genre.begin(), mv2.genre.end(), inpgenre) != mv2.genre.end();
+            if (mv1genre && !mv2genre) {
                 return true;  // mv1 comes first
-            } else if (!mv1.genre.count(inpgenre) && mv2.genre.count(inpgenre)) {
+            } else if (!mv1genre && mv2genre) {
                 return false; // mv2 comes first
             } else {
                 return false; // Maintain previous order if neither matches
@@ -179,9 +182,11 @@ public:
     }
     double sortbygenrequick(const std::string& inpgenre) {
         auto comparegenre = [&inpgenre](const Movie& mv1, const Movie& mv2) -> bool {
-            if (mv1.genre.count(inpgenre) && !mv2.genre.count(inpgenre)) {
+            bool mv1genre = find(mv1.genre.begin(), mv1.genre.end(), inpgenre) != mv1.genre.end();
+            bool mv2genre = find(mv2.genre.begin(), mv2.genre.end(), inpgenre) != mv2.genre.end();
+            if (mv1genre && !mv2genre) {
                 return true;  // mv1 comes first
-            } else if (!mv1.genre.count(inpgenre) && mv2.genre.count(inpgenre)) {
+            } else if (!mv1genre && mv2genre) {
                 return false; // mv2 comes first
             } else {
                 return false; // Maintain previous order if neither matches
@@ -195,11 +200,13 @@ public:
     }
     double sortbydirectormerge(const string& drctr) {
         auto comparedirector = [&drctr](const Movie& mv1, const Movie& mv2) -> bool {
-            if (mv1.director.count(drctr) && !mv2.director.count(drctr)) {
+            bool mv1drctr = find(mv1.director.begin(), mv1.director.end(), drctr) != mv1.director.end();
+            bool mv2drctr = find(mv2.director.begin(), mv2.director.end(), drctr) != mv2.director.end();
+            if (mv1drctr && !mv2drctr) {
                 // mv1 comes first
                 return true;
             }
-            else if (!mv1.director.count(drctr) && mv2.director.count(drctr)) {
+            else if (!mv1drctr && mv2drctr) {
                 // mv2 comes first
                 return false;
             }
@@ -216,11 +223,13 @@ public:
     }
     double sortbydirectorquick(const string& drctr) {
         auto comparedirector = [&drctr](const Movie& mv1, const Movie& mv2) -> bool {
-            if (mv1.director.count(drctr) && !mv2.director.count(drctr)) {
+            bool mv1drctr = find(mv1.director.begin(), mv1.director.end(), drctr) != mv1.director.end();
+            bool mv2drctr = find(mv2.director.begin(), mv2.director.end(), drctr) != mv2.director.end();
+            if (mv1drctr && !mv2drctr) {
                 // mv1 comes first
                 return true;
             }
-            else if (!mv1.director.count(drctr) && mv2.director.count(drctr)) {
+            else if (!mv1drctr && mv2drctr) {
                 // mv2 comes first
                 return false;
             }
@@ -237,11 +246,13 @@ public:
     }
     double sortbywritermerge(string& wrtr) {
         auto comparewriter = [&wrtr](const Movie& mv1, const Movie& mv2) {
-            if (mv1.writer.count(wrtr) && !mv2.writer.count(wrtr)) {
+            bool mv1wrtr = find(mv1.writer.begin(), mv1.writer.end(), wrtr) != mv1.writer.end();
+            bool mv2wrtr = find(mv2.writer.begin(), mv2.writer.end(), wrtr) != mv2.writer.end();
+            if (mv1wrtr && !mv2wrtr) {
                 // mv1 comes first
                 return true;
             }
-            else if (!mv1.writer.count(wrtr) && mv2.writer.count(wrtr)) {
+            else if (!mv1wrtr && mv2wrtr) {
                 // mv2 comes first
                 return false;
             }
@@ -258,11 +269,13 @@ public:
     }
     double sortbywriterquick(string& wrtr) {
         auto comparewriter = [&wrtr](const Movie& mv1, const Movie& mv2) {
-            if (mv1.writer.count(wrtr) && !mv2.writer.count(wrtr)) {
+            bool mv1wrtr = find(mv1.writer.begin(), mv1.writer.end(), wrtr) != mv1.writer.end();
+            bool mv2wrtr = find(mv2.writer.begin(), mv2.writer.end(), wrtr) != mv2.writer.end();
+            if (mv1wrtr && !mv2wrtr) {
                 // mv1 comes first
                 return true;
             }
-            else if (!mv1.writer.count(wrtr) && mv2.writer.count(wrtr)) {
+            else if (!mv1wrtr && mv2wrtr) {
                 // mv2 comes first
                 return false;
             }
@@ -321,7 +334,8 @@ public:
     //filter to specific genre
     void filterbygenre(string& gnre) {
         for (auto it = mlist.begin(); it != mlist.end();) {
-            if (!it->genre.count(gnre)) {
+            bool mvgenre = find(it->genre.begin(), it->genre.end(), gnre) != it->genre.end();
+            if (!mvgenre) {
                 it = mlist.erase(it);
             }
             else {
@@ -329,7 +343,8 @@ public:
             }
         }
         for (auto it = qlist.begin(); it != qlist.end();) {
-            if (!it->genre.count(gnre)) {
+            bool mvgenre = find(it->genre.begin(), it->genre.end(), gnre) != it->genre.end();
+            if (!mvgenre) {
                 it = qlist.erase(it);
             }
             else {
@@ -340,7 +355,8 @@ public:
     //filter to specific director
     void filterbydirector(string& drctr) {
         for (auto it = mlist.begin(); it != mlist.end();) {
-            if (!it->director.count(drctr)) {
+            bool mvdrctr = find(it->director.begin(), it->director.end(), drctr) != it->director.end();
+            if (!mvdrctr) {
                 it = mlist.erase(it);
             }
             else {
@@ -348,7 +364,8 @@ public:
             }
         }
         for (auto it = qlist.begin(); it != qlist.end();) {
-            if (!it->director.count(drctr)) {
+            bool mvdrctr = find(it->director.begin(), it->director.end(), drctr) != it->director.end();
+            if (!mvdrctr) {
                 it = qlist.erase(it);
             }
             else {
@@ -359,7 +376,8 @@ public:
     //filter to specific writer
     void filterbywriter(string& wrtr) {
         for (auto it = mlist.begin(); it != mlist.end();) {
-            if (!it->writer.count(wrtr)) {
+            bool mvwrtr = find(it->writer.begin(), it->writer.end(), wrtr) != it->writer.end();
+            if (!mvwrtr) {
                 it = mlist.erase(it);
             }
             else {
@@ -367,7 +385,8 @@ public:
             }
         }
         for (auto it = qlist.begin(); it != qlist.end();) {
-            if (!it->writer.count(wrtr)) {
+            bool mvwrtr = find(it->writer.begin(), it->writer.end(), wrtr) != it->writer.end();
+            if (!mvwrtr) {
                 it = qlist.erase(it);
             }
             else {
@@ -379,22 +398,23 @@ public:
     // Recommend basic function
     void recommend() {
         int count = 1;
-        for (auto it = mlist.begin(); it != mlist.end();) {
+        for (auto it = mlist.begin(); it != mlist.end() && count < 11;) {
             cout << "Recommended Movie " << count << ":" << endl;
             cout << "Title: " << it->title << endl;
             cout << "Year: " << it->year << endl;
             cout << "Rating: " << it->rating << endl;
             cout << "Genres: ";
-            for (auto it2 = it->genre.begin(); it2 != it->genre.end();) {
-                cout << it2->first << ", ";
+            for (string g : it->genre) {
+                cout << g << ", ";
             }
             cout << endl;
             cout << "Directors: ";
-            for (auto it3 = it->director.begin(); it3 != it->director.end();) {
-                cout << it3->first << ", ";
+            for (string d : it->director) {
+                cout << d << ", ";
             }
             cout << endl;
             cout << endl;
+            count++;
         }
     }
 
