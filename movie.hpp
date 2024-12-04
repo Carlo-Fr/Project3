@@ -60,8 +60,8 @@ public:
         hlist = original;
     }
 
-    // start of mergesort/quicksort functions line 229, jump to line 30 for class sort functions, past line 469 are filter functions,
-    // and recommend function on line 573
+    // start of mergesort/quicksort functions line 229, jump to line 323 for movie sort functions, past line 512 are filter functions,
+    // and recommend function on line 572
 
 
     // functions for parsing
