@@ -42,16 +42,16 @@ int main(){
     unordered_map<string, string> namesMap;
 
     // ratingsMap from title.ratings.tsv
-    ML.populateRatingsMap("C:\\Users\\carlo\\CLionProjects\\proj3\\title.ratings.tsv", ratingsMap);
+    ML.populateRatingsMap("title.ratings.tsv", ratingsMap);
 
     // directorMap and writerMap from title.crew.tsv
-    ML.parseCrewFile("C:\\Users\\carlo\\CLionProjects\\proj3\\title.crew.tsv", directorMap, writerMap);
+    ML.parseCrewFile("title.crew.tsv", directorMap, writerMap);
 
     // namesMap from name.basics.tsv
-    ML.populateNamesMap("C:\\Users\\carlo\\CLionProjects\\proj3\\name.basics.tsv", namesMap);
+    ML.populateNamesMap("name.basics.tsv", namesMap);
 
     // parse title.basics.tsv and create Movie objects
-    ML.parseTSV("C:\\Users\\carlo\\CLionProjects\\proj3\\title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap);
+    ML.parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap);
 
     bool exit = false;
   while(!exit){
