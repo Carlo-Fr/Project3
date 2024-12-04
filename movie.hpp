@@ -36,7 +36,7 @@ public:
 class MovieList {
 public:
     vector<Movie> mlist;
-    vector<Movie> qlist;
+    vector<Movie> hlist;
     vector<Movie> original;
     int size;
 public:
@@ -45,13 +45,13 @@ public:
     }
     void insert(Movie& mv) {
         mlist.push_back(mv);
-        qlist.push_back(mv);
+        hlist.push_back(mv);
         original.push_back(mv);
         size++;
     }
     void reset() {
         mlist = original;
-        qlist = original;
+        hlist = original;
     }
 
     // start of mergesort/quicksort functions line 229, jump to line 30 for class sort functions, past line 469 are filter functions,
@@ -279,29 +279,34 @@ public:
             merge(list, start, mid, end, comparator);
         }
     }
-
-    int part(vector<Movie>& list, int low, int high, function<bool(const Movie&, const Movie&)> comparator) {
-        Movie piv = list[high];
-        int swpindex = low - 1;
-        for (int i = low; i <= high - 1; i++) {
-            if (comparator(list[i], piv)) {
-                swpindex++;
-                swap(list[swpindex], list[i]);
-            }
+    void heapify(vector<Movie>& list, int n, int i, function<bool(const Movie&, const Movie&)> comparator) {
+        int lrgst = i;
+        int left = 2*i + 1;
+        int right = 2*i + 2;
+        if (left < n && comparator(list[left], list[lrgst])) {
+            lrgst = left;
         }
-        swap(list[swpindex + 1], list[high]);
-        return swpindex + 1;
-    }
-
-    void quicksort(vector<Movie>& list, int low, int high, function<bool(const Movie&, const Movie&)> comparator) {
-        if (low < high) {
-            int prt = part(list, low, high, comparator);
-            quicksort(list, low, prt - 1, comparator);
-            quicksort(list, prt + 1, high, comparator);
+        if (right < n && comparator(list[right], list[lrgst])) {
+            lrgst = right;
+        }
+        if (lrgst != i) {
+            swap(list[i], list[lrgst]);
+            heapify(list, n, lrgst, comparator);
         }
     }
+    void heapsort(vector<Movie>& list, function<bool(const Movie&, const Movie&)> comparator) {
+        int n = list.size();
+        for (int i = n/2 - 1; i >= 0; i--) {
+            heapify(list, n, i, comparator);
+        }
+        for (int i = n-1; i > 0; i--) {
+            swap(list[0], list[i]);
+            heapify(list, i, 0, comparator);
+        }
+    }
 
-    // end of merge/quicksort functions
+
+    // end of merge/heapsort functions
 
     double sortbyyearmerge() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
@@ -313,12 +318,12 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
-    double sortbyyearquick() {
+    double sortbyyearheap() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
-            return mv1.year > mv2.year;
+            return mv1.year < mv2.year;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, qlist.size() - 1, compareyear);
+        heapsort(hlist, compareyear);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -333,12 +338,12 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
-    double sortbyratingquick() {
+    double sortbyratingheap() {
         auto comparerating = [](const Movie& mv1, const Movie& mv2) {
-            return mv1.rating > mv2.rating;
+            return mv1.rating < mv2.rating;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, qlist.size() - 1, comparerating);
+        heapsort(hlist, comparerating);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -361,7 +366,7 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
-    double sortbygenrequick(const std::string& inpgenre) {
+    double sortbygenreheap(const std::string& inpgenre) {
         auto comparegenre = [&inpgenre](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1genre = find(mv1.genre.begin(), mv1.genre.end(), inpgenre) != mv1.genre.end();
             bool mv2genre = find(mv2.genre.begin(), mv2.genre.end(), inpgenre) != mv2.genre.end();
@@ -374,7 +379,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, qlist.size() - 1, comparegenre);
+        heapsort(hlist, comparegenre);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -402,7 +407,7 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
-    double sortbydirectorquick(const string& drctr) {
+    double sortbydirectorheap(const string& drctr) {
         auto comparedirector = [&drctr](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1drctr = find(mv1.director.begin(), mv1.director.end(), drctr) != mv1.director.end();
             bool mv2drctr = find(mv2.director.begin(), mv2.director.end(), drctr) != mv2.director.end();
@@ -420,7 +425,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, qlist.size() - 1, comparedirector);
+        heapsort(hlist, comparedirector);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -448,7 +453,7 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
-    double sortbywriterquick(string& wrtr) {
+    double sortbywriterheap(string& wrtr) {
         auto comparewriter = [&wrtr](const Movie& mv1, const Movie& mv2) {
             bool mv1wrtr = find(mv1.writer.begin(), mv1.writer.end(), wrtr) != mv1.writer.end();
             bool mv2wrtr = find(mv2.writer.begin(), mv2.writer.end(), wrtr) != mv2.writer.end();
@@ -466,7 +471,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, qlist.size() - 1, comparewriter);
+        heapsort(hlist, comparewriter);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -483,7 +488,7 @@ public:
             }
         }
         mlist = result;
-        qlist = result;
+        hlist = result;
     }
     // filter with minimum rating
     void filterbyrating(double rtng) {
@@ -494,7 +499,7 @@ public:
             }
         }
         mlist = result;
-        qlist = result;
+        hlist = result;
     }
     //filter to specific genre
     void filterbygenre(string& gnre) {
@@ -506,7 +511,7 @@ public:
             }
         }
         mlist = result;
-        qlist = result;
+        hlist = result;
     }
     //filter to specific director
     void filterbydirector(string& drctr) {
@@ -518,7 +523,7 @@ public:
             }
         }
         mlist = result;
-        qlist = result;
+        hlist = result;
     }
     //filter to specific writer
     void filterbywriter(string& wrtr) {
@@ -530,7 +535,7 @@ public:
             }
         }
         mlist = result;
-        qlist = result;
+        hlist = result;
     }
 
     // Recommend basic function
