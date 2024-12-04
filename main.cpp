@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Display menu with options
 void displayMenu() {
     cout << "\n--- MovieMender Menu ---\n";
     cout << "1. Sort movies by year\n";
@@ -24,6 +25,7 @@ void displayMenu() {
     cout << endl;
 }
 
+// Display function for debug/testing
 void displayMovies(vector<Movie>& movies){
   cout << "\n--- Movie List ---\n";
   for(auto movie : movies){
