@@ -64,19 +64,19 @@ int main(){
     switch (choice) {
         case 1: {
             double mtime = ML.sortbyyearmerge();
-            //double qtime = ML.sortbyyearquick();
+            double htime = ML.sortbyyearheap();
             cout << "Movies sorted by year.\n";
             cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
-            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << "Time to sort with heapsort: " << htime << " seconds" << endl;
             cout << endl;
             break;
         }
         case 2: {
             double mtime = ML.sortbyratingmerge();
-            //double qtime = ML.sortbyratingquick();
+            double htime = ML.sortbyratingheap();
             cout << "Movies sorted by rating.\n";
             cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
-            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << "Time to sort with heapsort: " << htime << " seconds" << endl;
             cout << endl;
             break;
         }
@@ -85,10 +85,10 @@ int main(){
             cout << "Enter genre to sort by: " << endl;
             getline(cin, genre);
             double mtime = ML.sortbygenremerge(genre);
-            //double qtime = ML.sortbygenrequick(genre);
+            double htime = ML.sortbygenreheap(genre);
             cout << "Movies sorted by genre.\n";
             cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
-            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << "Time to sort with heapsort: " << htime << " seconds" << endl;
             cout << endl;
             break;
         }
@@ -97,10 +97,10 @@ int main(){
             cout << "Enter director to sort by: " << endl;
             getline(cin, director);
             double mtime = ML.sortbydirectormerge(director);
-            //double qtime = ML.sortbydirectorquick(director);
+            double htime = ML.sortbydirectorheap(director);
             cout << "Movies sorted by director.\n";
             cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
-            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << "Time to sort with heapsort: " << htime << " seconds" << endl;
             cout << endl;
             break;
         }
@@ -109,10 +109,10 @@ int main(){
             cout << "Enter writer to sort by: " << endl;
             getline(cin, writer);
             double mtime = ML.sortbywritermerge(writer);
-            //double qtime = ML.sortbywriterquick(writer);
+            double htime = ML.sortbywriterheap(writer);
             cout << "Movies sorted by writer.\n";
             cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
-            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << "Time to sort with heapsort: " << htime << " seconds" << endl;
             cout << endl;
             break;
         }
