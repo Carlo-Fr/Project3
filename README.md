@@ -27,7 +27,15 @@ https://datasets.imdbws.com/title.crew.tsv.gz
 
 https://datasets.imdbws.com/name.basics.tsv.gz
 
-<br><br><br><br>
+Run the program with these lines:
+
+<ul>
+<li>g++ main.cpp movie.hpp -o program</li>
+<li>./program.exe</li>
+</ul>
+
+All user inputs are case-sensitive. eg. Director: John Smith, Genre: Comedy.
+<br><br><br><br><br><br><br><br>
 This is the template for Project 3 repositories. It includes all the assignment instructions and documentation to help you use GitHub.
 
 <h2> Table of Contents </h2>
