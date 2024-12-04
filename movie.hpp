@@ -14,6 +14,7 @@
 #include <utility>
 using namespace std;
 
+// Movie class with attributes of title, genres, rating, year, director, writer
 class Movie {
 public:
     string title;
@@ -33,6 +34,9 @@ public:
     }
 };
 
+// Movielist has a list that is sorted with mergesort functions mlist,
+// a list sorted with heapsort functions hlist, and a list original
+// that is used to revert back to the original order/size of the orginal list
 class MovieList {
 public:
     vector<Movie> mlist;
@@ -43,12 +47,14 @@ public:
     MovieList() {
         size = 0;
     }
+    // Insert into MovieList class object
     void insert(Movie& mv) {
         mlist.push_back(mv);
         hlist.push_back(mv);
         original.push_back(mv);
         size++;
     }
+    // Reser lists back to original size/order
     void reset() {
         mlist = original;
         hlist = original;
@@ -62,7 +68,7 @@ public:
 
     // movie ratings from title.ratings.tsv
     void populateRatingsMap(const string& filename, unordered_map<string, double>& ratingsMap) {
-        cout << 1 << endl;
+        cout << "Parsing ratings file..." << endl;
         ifstream file(filename);
         string line;
 
@@ -86,7 +92,7 @@ public:
 
     // populate namesMap from names.basics.tsv
     void populateNamesMap(const string& filename, unordered_map<string, string>& namesMap) {
-        cout << 2 << endl;
+        cout << "Parsing name basics file..." << endl;
         ifstream file(filename);
         string line;
 
@@ -106,7 +112,7 @@ public:
 
     // parse the title.crew.tsv file and retrieve the names for director and writer
     void parseCrewFile(const string& filename, unordered_map<string, vector<string>>& directorMap, unordered_map<string, vector<string>>& writerMap) {
-        cout << 3 << endl;
+        cout << "Parsing crew file..." << endl;
         ifstream file(filename);
         string line;
 
@@ -149,7 +155,7 @@ public:
     void parseTSV(const string& filename, const unordered_map<string, double>& ratingsMap,
                   const unordered_map<string, vector<string>>& directorMap, const unordered_map<string, vector<string>>& writerMap,
                   const unordered_map<string, string>& namesMap) {
-        cout << 4 << endl;
+        cout << "Parsing title basics file..." << endl;
         ifstream file(filename);
         string line;
 
@@ -232,9 +238,10 @@ public:
 
 
 
-    // start of mergesort/quicksort functions, jump to line 300 for class sort functions, past line 469 are filter functions,
-    // and recommend function on line 573
+    // start of mergesort/quicksort functions, jump to line 323 for movie sort functions, past line 512 are filter functions,
+    // and recommend function starts on line 572
 
+    // Generic merge function that uses movie functions and takes in a custom comparator
     void merge(vector<Movie>& list, int left, int mid, int right, function<bool(const Movie&, const Movie&)> comparator) {
         int leftside = mid - left + 1;
         int rightside = right - mid;
@@ -271,6 +278,7 @@ public:
             z++;
         }
     }
+    // Generic mergesort function that uses a movie list, movie objects, and a custom comparator
     void mergesort(vector<Movie>& list, int start, int end, function<bool(const Movie&, const Movie&)> comparator) {
         if (start < end) {
             int mid = start + (end - start) / 2;
@@ -279,6 +287,8 @@ public:
             merge(list, start, mid, end, comparator);
         }
     }
+
+    // Heapify function for a movie list/movie objects that also uses a custom comparator
     void heapify(vector<Movie>& list, int n, int i, function<bool(const Movie&, const Movie&)> comparator) {
         int lrgst = i;
         int left = 2*i + 1;
@@ -294,6 +304,7 @@ public:
             heapify(list, n, lrgst, comparator);
         }
     }
+    // Generic heapsort function that uses a movielist/movie objects and a custom comparator
     void heapsort(vector<Movie>& list, function<bool(const Movie&, const Movie&)> comparator) {
         int n = list.size();
         for (int i = n/2 - 1; i >= 0; i--) {
@@ -305,9 +316,10 @@ public:
         }
     }
 
-
     // end of merge/heapsort functions
 
+    // Function that has a custom comparator to sort movies by more recent year using mergesort
+    // Returns time it takes to sort
     double sortbyyearmerge() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
             return mv1.year > mv2.year;
@@ -318,6 +330,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies by more recent year using heapsort
+    // Returns time it takes to sort
     double sortbyyearheap() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
             return mv1.year < mv2.year;
@@ -328,6 +342,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies by higher rating using mergesort
+    // Returns time it takes to sort
     double sortbyratingmerge() {
         auto comparerating = [](const Movie& mv1, const Movie& mv2) {
             return mv1.rating > mv2.rating;
@@ -338,6 +354,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies by higher rating using heapsort
+    // Returns time it takes to sort
     double sortbyratingheap() {
         auto comparerating = [](const Movie& mv1, const Movie& mv2) {
             return mv1.rating < mv2.rating;
@@ -348,6 +366,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input genre using mergesort
+    // Returns time it takes to sort
     double sortbygenremerge(const std::string& inpgenre) {
         auto comparegenre = [&inpgenre](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1genre = find(mv1.genre.begin(), mv1.genre.end(), inpgenre) != mv1.genre.end();
@@ -366,6 +386,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input genre using heapsort
+    // Returns time it takes to sort
     double sortbygenreheap(const std::string& inpgenre) {
         auto comparegenre = [&inpgenre](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1genre = find(mv1.genre.begin(), mv1.genre.end(), inpgenre) != mv1.genre.end();
@@ -384,6 +406,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input director using mergesort
+    // Returns time it takes to sort
     double sortbydirectormerge(const string& drctr) {
         auto comparedirector = [&drctr](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1drctr = find(mv1.director.begin(), mv1.director.end(), drctr) != mv1.director.end();
@@ -407,6 +431,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input director using heapsort
+    // Returns time it takes to sort
     double sortbydirectorheap(const string& drctr) {
         auto comparedirector = [&drctr](const Movie& mv1, const Movie& mv2) -> bool {
             bool mv1drctr = find(mv1.director.begin(), mv1.director.end(), drctr) != mv1.director.end();
@@ -430,6 +456,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input writer using mergesort
+    // Returns time it takes to sort
     double sortbywritermerge(string& wrtr) {
         auto comparewriter = [&wrtr](const Movie& mv1, const Movie& mv2) {
             bool mv1wrtr = find(mv1.writer.begin(), mv1.writer.end(), wrtr) != mv1.writer.end();
@@ -453,6 +481,8 @@ public:
         chrono::duration<double> time = endtime - starttime;
         return time.count();
     }
+    // Function that has a custom comparator to sort movies and prioritize an input writer using heapsort
+    // Returns time it takes to sort
     double sortbywriterheap(string& wrtr) {
         auto comparewriter = [&wrtr](const Movie& mv1, const Movie& mv2) {
             bool mv1wrtr = find(mv1.writer.begin(), mv1.writer.end(), wrtr) != mv1.writer.end();
@@ -479,7 +509,7 @@ public:
 
     // filter functions
 
-    //filter to specific year
+    //filter to with a minimum year
     void filterbyyear(int yr) {
         vector<Movie> result;
         for (int i = mlist.size() - 1; i >= 0; i--) {
@@ -538,7 +568,7 @@ public:
         hlist = result;
     }
 
-    // Recommend basic function
+    // Recommend basic function, lists top 10 movies of recommended movie list
     void recommend() {
         int count = 1;
         for (int i = 0; i < 10; i++) {
@@ -548,13 +578,23 @@ public:
             cout << "Year: " << it.year << endl;
             cout << "Rating: " << it.rating << endl;
             cout << "Genres: ";
-            for (string g : it.genre) {
-                cout << g << ", ";
+            for (int j = 0; j < it.genre.size(); j++) {
+                if (j == it.genre.size() - 1) {
+                    cout << it.genre[j];
+                }
+                else {
+                    cout << it.genre[j] << ", ";
+                }
             }
             cout << endl;
             cout << "Directors: ";
-            for (string d : it.director) {
-                cout << d << ", ";
+            for (int j = 0; j < it.director.size(); j++) {
+                if (j == it.director.size() - 1) {
+                    cout << it.director[j];
+                }
+                else {
+                    cout << it.director[j] << ", ";
+                }
             }
             cout << endl;
             cout << endl;
