@@ -42,16 +42,16 @@ int main(){
     unordered_map<string, string> namesMap;
 
     // ratingsMap from title.ratings.tsv
-    ML.populateRatingsMap("title.ratings.tsv", ratingsMap);
+    ML.populateRatingsMap("C:\\Users\\carlo\\CLionProjects\\proj3\\title.ratings.tsv", ratingsMap);
 
     // directorMap and writerMap from title.crew.tsv
-    ML.parseCrewFile("title.crew.tsv", directorMap, writerMap);
+    ML.parseCrewFile("C:\\Users\\carlo\\CLionProjects\\proj3\\title.crew.tsv", directorMap, writerMap);
 
     // namesMap from name.basics.tsv
-    ML.populateNamesMap("name.basics.tsv", namesMap);
+    ML.populateNamesMap("C:\\Users\\carlo\\CLionProjects\\proj3\\name.basics.tsv", namesMap);
 
     // parse title.basics.tsv and create Movie objects
-    ML.parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap);
+    ML.parseTSV("C:\\Users\\carlo\\CLionProjects\\proj3\\title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap);
 
     bool exit = false;
   while(!exit){
@@ -82,8 +82,7 @@ int main(){
         }
         case 3: {
             string genre;
-            cout << "Enter genre to sort by: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter genre to sort by: " << endl;
             getline(cin, genre);
             double mtime = ML.sortbygenremerge(genre);
             //double qtime = ML.sortbygenrequick(genre);
@@ -95,8 +94,7 @@ int main(){
         }
         case 4: {
             string director;
-            cout << "Enter director to sort by: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter director to sort by: " << endl;
             getline(cin, director);
             double mtime = ML.sortbydirectormerge(director);
             //double qtime = ML.sortbydirectorquick(director);
@@ -108,8 +106,7 @@ int main(){
         }
         case 5: {
             string writer;
-            cout << "Enter writer to sort by: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter writer to sort by: " << endl;
             getline(cin, writer);
             double mtime = ML.sortbywritermerge(writer);
             //double qtime = ML.sortbywriterquick(writer);
@@ -121,26 +118,25 @@ int main(){
         }
         case 6: {
             string year;
-            cout << "Enter minimum year for a movie: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter minimum year for a movie: " << endl;
             getline(cin, year);
-            ML.filterbyyear(stoi(year));
+            int yr = stoi(year);
+            ML.filterbyyear(yr);
             cout << endl;
             break;
         }
         case 7: {
             string rating;
-            cout << "Enter minimum rating for a movie: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter minimum rating for a movie: " << endl;
             getline(cin, rating);
-            ML.filterbyrating(stod(rating));
+            double rtng = stod(rating);
+            ML.filterbyrating(rtng);
             cout << endl;
             break;
         }
         case 8: {
             string genre;
-            cout << "Enter specific movie genre: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter specific movie genre: " << endl;
             getline(cin, genre);
             ML.filterbygenre(genre);
             cout << endl;
@@ -148,8 +144,7 @@ int main(){
         }
         case 9: {
             string director;
-            cout << "Enter specific movie director: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter specific movie director: " << endl;
             getline(cin, director);
             ML.filterbydirector(director);
             cout << endl;
@@ -157,8 +152,7 @@ int main(){
         }
         case 10: {
             string writer;
-            cout << "Enter specific movie writer: ";
-            cin.ignore(); //newline buffer
+            cout << "Enter specific movie writer: " << endl;
             getline(cin, writer);
             ML.filterbywriter(writer);
             cout << endl;
