@@ -34,7 +34,7 @@ public:
 };
 
 class MovieList {
-private:
+public:
     vector<Movie> mlist;
     vector<Movie> qlist;
     vector<Movie> original;
@@ -43,7 +43,7 @@ public:
     MovieList() {
         size = 0;
     }
-    void insert(Movie mv) {
+    void insert(Movie& mv) {
         mlist.push_back(mv);
         qlist.push_back(mv);
         original.push_back(mv);
@@ -62,6 +62,7 @@ public:
 
     // movie ratings from title.ratings.tsv
     void populateRatingsMap(const string& filename, unordered_map<string, double>& ratingsMap) {
+        cout << 1 << endl;
         ifstream file(filename);
         string line;
 
@@ -85,6 +86,7 @@ public:
 
     // populate namesMap from names.basics.tsv
     void populateNamesMap(const string& filename, unordered_map<string, string>& namesMap) {
+        cout << 2 << endl;
         ifstream file(filename);
         string line;
 
@@ -104,6 +106,7 @@ public:
 
     // parse the title.crew.tsv file and retrieve the names for director and writer
     void parseCrewFile(const string& filename, unordered_map<string, vector<string>>& directorMap, unordered_map<string, vector<string>>& writerMap) {
+        cout << 3 << endl;
         ifstream file(filename);
         string line;
 
@@ -145,7 +148,8 @@ public:
     // parse the title.basics.tsv and create Movie objects
     void parseTSV(const string& filename, const unordered_map<string, double>& ratingsMap,
                   const unordered_map<string, vector<string>>& directorMap, const unordered_map<string, vector<string>>& writerMap,
-                  const unordered_map<string, string>& namesMap, vector<Movie>& movies) {
+                  const unordered_map<string, string>& namesMap) {
+        cout << 4 << endl;
         ifstream file(filename);
         string line;
 
@@ -218,7 +222,9 @@ public:
                 }
 
                 // Movie object and add it to the movies vector
-                movies.emplace_back(primaryTitle, genresV, rating, year, directors, writers);
+                Movie mv(primaryTitle, genresV, rating, year, directors, writers);
+                insert(mv);
+                //movies.emplace_back(primaryTitle, genresV, rating, year, directors, writers);
             }
 
         }
@@ -309,7 +315,7 @@ public:
     }
     double sortbyyearquick() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
-            return mv1.year > mv2.year;
+            return mv1.year < mv2.year;
         };
         auto starttime = chrono::high_resolution_clock::now();
         quicksort(qlist, 0, size - 1, compareyear);
@@ -364,7 +370,7 @@ public:
             } else if (!mv1genre && mv2genre) {
                 return false; // mv2 comes first
             } else {
-                return false; // Maintain previous order if neither matches
+                return true; // Maintain previous order if neither matches
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
@@ -387,7 +393,7 @@ public:
             }
             else {
                 // if neither have target, maintain previous order
-                return false;
+                return true;
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
@@ -410,7 +416,7 @@ public:
             }
             else {
                 // if neither have target, maintain previous order
-                return false;
+                return true;
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
@@ -433,7 +439,7 @@ public:
             }
             else {
                 // if neither have target, maintain previous order
-                return false;
+                return true;
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
@@ -456,7 +462,7 @@ public:
             }
             else {
                 // if neither have target, maintain previous order
-                return false;
+                return true;
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
@@ -471,7 +477,7 @@ public:
     //filter to specific year
     void filterbyyear(int yr) {
         for (auto it = mlist.begin(); it != mlist.end();) {
-            if (it->year != yr) {
+            if (it->year < yr) {
                 it = mlist.erase(it);
             }
             else {
@@ -589,6 +595,7 @@ public:
             }
             cout << endl;
             cout << endl;
+            it++;
             count++;
         }
     }
