@@ -12,9 +12,16 @@ void displayMenu() {
     cout << "3. Sort movies by genre\n";
     cout << "4. Sort movies by director\n";
     cout << "5. Sort movies by writer\n";
-    cout << "6. Reset movie list to original order\n";
-    cout << "7. Exit\n";
+    cout << "6. Filter movies by year\n";
+    cout << "7. Filter movies by rating\n";
+    cout << "8. Filter movies by genre\n";
+    cout << "9. Filter movies by director\n";
+    cout << "10. Filter movies by writer\n";
+    cout << "11. Give Recommended Movies\n";
+    cout << "12. Reset movie list to original order\n";
+    cout << "13. Exit\n";
     cout << "Enter your choice: ";
+    cout << endl;
 }
 
 void displayMovies(vector<Movie>& movies){
@@ -28,23 +35,23 @@ int main(){
 
     // calling parsing functions for Movie class
 
-    vector<Movie> movies; // vector of movie objects
+    MovieList ML; // vector of movie objects
     unordered_map<string, double> ratingsMap;
     unordered_map<string, vector<string>> directorMap;
     unordered_map<string, vector<string>> writerMap;
     unordered_map<string, string> namesMap;
 
     // ratingsMap from title.ratings.tsv
-    populateRatingsMap("title.ratings.tsv", ratingsMap);
+    ML.populateRatingsMap("title.ratings.tsv", ratingsMap);
 
     // directorMap and writerMap from title.crew.tsv
-    parseCrewFile("title.crew.tsv", directorMap, writerMap);
+    ML.parseCrewFile("title.crew.tsv", directorMap, writerMap);
 
     // namesMap from name.basics.tsv
-    populateNamesMap("name.basics.tsv", namesMap);
+    ML.populateNamesMap("name.basics.tsv", namesMap);
 
     // parse title.basics.tsv and create Movie objects
-    parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap, movies);
+    ML.parseTSV("title.basics.tsv", ratingsMap, directorMap, writerMap, namesMap);
 
     bool exit = false;
   while(!exit){
@@ -54,22 +61,36 @@ int main(){
     cin.ignore(); //create a newline buffer
 
     //call appropriate function based on choice
-    switch (choice){
-      case 1:
-            movieList.sortbyyear();
+    switch (choice) {
+        case 1: {
+            double mtime = ML.sortbyyearmerge();
+            //double qtime = ML.sortbyyearquick();
             cout << "Movies sorted by year.\n";
+            cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
+            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << endl;
             break;
-        case 2:
-            movieList.sortbyrating();
+        }
+        case 2: {
+            double mtime = ML.sortbyratingmerge();
+            //double qtime = ML.sortbyratingquick();
             cout << "Movies sorted by rating.\n";
+            cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
+            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << endl;
             break;
+        }
         case 3: {
             string genre;
             cout << "Enter genre to sort by: ";
             cin.ignore(); //newline buffer
             getline(cin, genre);
-            movieList.sortbygenre(genre);
+            double mtime = ML.sortbygenremerge(genre);
+            //double qtime = ML.sortbygenrequick(genre);
             cout << "Movies sorted by genre.\n";
+            cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
+            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << endl;
             break;
         }
         case 4: {
@@ -77,8 +98,12 @@ int main(){
             cout << "Enter director to sort by: ";
             cin.ignore(); //newline buffer
             getline(cin, director);
-            movieList.sortbydirector(director);
+            double mtime = ML.sortbydirectormerge(director);
+            //double qtime = ML.sortbydirectorquick(director);
             cout << "Movies sorted by director.\n";
+            cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
+            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << endl;
             break;
         }
         case 5: {
@@ -86,21 +111,76 @@ int main(){
             cout << "Enter writer to sort by: ";
             cin.ignore(); //newline buffer
             getline(cin, writer);
-            movieList.sortbywriter(writer);
+            double mtime = ML.sortbywritermerge(writer);
+            //double qtime = ML.sortbywriterquick(writer);
             cout << "Movies sorted by writer.\n";
+            cout << "Time to sort with mergesort: " << mtime << " seconds" << endl;
+            //cout << "Time to sort with quicksort: " << qtime << " seconds" << endl;
+            cout << endl;
             break;
         }
-        case 6:
-            movieList.reset();
+        case 6: {
+            string year;
+            cout << "Enter minimum year for a movie: ";
+            cin.ignore(); //newline buffer
+            getline(cin, year);
+            ML.filterbyyear(stoi(year));
+            cout << endl;
+            break;
+        }
+        case 7: {
+            string rating;
+            cout << "Enter minimum rating for a movie: ";
+            cin.ignore(); //newline buffer
+            getline(cin, rating);
+            ML.filterbyrating(stod(rating));
+            cout << endl;
+            break;
+        }
+        case 8: {
+            string genre;
+            cout << "Enter specific movie genre: ";
+            cin.ignore(); //newline buffer
+            getline(cin, genre);
+            ML.filterbygenre(genre);
+            cout << endl;
+            break;
+        }
+        case 9: {
+            string director;
+            cout << "Enter specific movie director: ";
+            cin.ignore(); //newline buffer
+            getline(cin, director);
+            ML.filterbydirector(director);
+            cout << endl;
+            break;
+        }
+        case 10: {
+            string writer;
+            cout << "Enter specific movie writer: ";
+            cin.ignore(); //newline buffer
+            getline(cin, writer);
+            ML.filterbywriter(writer);
+            cout << endl;
+            break;
+        }
+        case 11: {
+            ML.recommend();
+            break;
+        }
+        case 12: {
+            ML.reset();
             cout << "Movie list reset to original order.\n";
             break;
-        case 7:
+        }
+        case 13: {
             exit = true;
             cout << "Thank you for using MovieMender. Goodbye!\n";
             break;
-        default:
+        }
+        default: {
             cout << "Invalid choice. Please select a different option.\n";
-        
+        }
     }
 
   }
