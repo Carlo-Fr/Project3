@@ -62,7 +62,6 @@ public:
 
     // movie ratings from title.ratings.tsv
     void populateRatingsMap(const string& filename, unordered_map<string, double>& ratingsMap) {
-        cout << 1 << endl;
         ifstream file(filename);
         string line;
 
@@ -86,7 +85,6 @@ public:
 
     // populate namesMap from names.basics.tsv
     void populateNamesMap(const string& filename, unordered_map<string, string>& namesMap) {
-        cout << 2 << endl;
         ifstream file(filename);
         string line;
 
@@ -106,7 +104,6 @@ public:
 
     // parse the title.crew.tsv file and retrieve the names for director and writer
     void parseCrewFile(const string& filename, unordered_map<string, vector<string>>& directorMap, unordered_map<string, vector<string>>& writerMap) {
-        cout << 3 << endl;
         ifstream file(filename);
         string line;
 
@@ -149,7 +146,6 @@ public:
     void parseTSV(const string& filename, const unordered_map<string, double>& ratingsMap,
                   const unordered_map<string, vector<string>>& directorMap, const unordered_map<string, vector<string>>& writerMap,
                   const unordered_map<string, string>& namesMap) {
-        cout << 4 << endl;
         ifstream file(filename);
         string line;
 
