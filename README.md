@@ -35,6 +35,9 @@ Run the program with these lines:
 </ul>
 
 All user inputs are case-sensitive. eg. Director: John Smith, Genre: Comedy.
+Ensure dataset files are all in the correct directory so that the filename/ relative paths of the files can be correctly used in the main file.
+Once dataset files are correctly saved and file names in main.cpp are correct, ensure that movie.hpp is in the same directory.
+With the movie data files, main.cpp, and movie.hpp ready, the main program can be run for the movie recommender program.
 <br><br><br><br><br><br><br><br>
 This is the template for Project 3 repositories. It includes all the assignment instructions and documentation to help you use GitHub.
 
