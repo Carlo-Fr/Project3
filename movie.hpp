@@ -62,6 +62,7 @@ public:
 
     // movie ratings from title.ratings.tsv
     void populateRatingsMap(const string& filename, unordered_map<string, double>& ratingsMap) {
+        cout << 1 << endl;
         ifstream file(filename);
         string line;
 
@@ -85,6 +86,7 @@ public:
 
     // populate namesMap from names.basics.tsv
     void populateNamesMap(const string& filename, unordered_map<string, string>& namesMap) {
+        cout << 2 << endl;
         ifstream file(filename);
         string line;
 
@@ -104,6 +106,7 @@ public:
 
     // parse the title.crew.tsv file and retrieve the names for director and writer
     void parseCrewFile(const string& filename, unordered_map<string, vector<string>>& directorMap, unordered_map<string, vector<string>>& writerMap) {
+        cout << 3 << endl;
         ifstream file(filename);
         string line;
 
@@ -146,6 +149,7 @@ public:
     void parseTSV(const string& filename, const unordered_map<string, double>& ratingsMap,
                   const unordered_map<string, vector<string>>& directorMap, const unordered_map<string, vector<string>>& writerMap,
                   const unordered_map<string, string>& namesMap) {
+        cout << 4 << endl;
         ifstream file(filename);
         string line;
 
@@ -311,7 +315,7 @@ public:
     }
     double sortbyyearquick() {
         auto compareyear = [](const Movie& mv1, const Movie& mv2) {
-            return mv1.year < mv2.year;
+            return mv1.year > mv2.year;
         };
         auto starttime = chrono::high_resolution_clock::now();
         quicksort(qlist, 0, size - 1, compareyear);
@@ -472,126 +476,83 @@ public:
 
     //filter to specific year
     void filterbyyear(int yr) {
-        for (auto it = mlist.begin(); it != mlist.end();) {
-            if (it->year < yr) {
-                it = mlist.erase(it);
-            }
-            else {
-                it++;
+        vector<Movie> result;
+        for (int i = mlist.size() - 1; i >= 0; i--) {
+            if (mlist[i].year >= yr) {
+                result.push_back(mlist[i]);
             }
         }
-        for (auto it = qlist.begin(); it != qlist.end();) {
-            if (it->year != yr) {
-                it = qlist.erase(it);
-            }
-            else {
-                it++;
-            }
-        }
+        mlist = result;
+        qlist = result;
     }
     // filter with minimum rating
     void filterbyrating(double rtng) {
-        for (auto it = mlist.begin(); it != mlist.end();) {
-            if (it->rating < rtng) {
-                it = mlist.erase(it);
-            }
-            else {
-                it++;
+        vector<Movie> result;
+        for (int i = mlist.size(); i >= 0; i--) {
+            if (mlist[i].rating >= rtng) {
+                result.push_back(mlist[i]);
             }
         }
-        for (auto it = qlist.begin(); it != qlist.end();) {
-            if (it->rating < rtng) {
-                it = qlist.erase(it);
-            }
-            else {
-                it++;
-            }
-        }
+        mlist = result;
+        qlist = result;
     }
     //filter to specific genre
     void filterbygenre(string& gnre) {
-        for (auto it = mlist.begin(); it != mlist.end();) {
-            bool mvgenre = find(it->genre.begin(), it->genre.end(), gnre) != it->genre.end();
-            if (!mvgenre) {
-                it = mlist.erase(it);
-            }
-            else {
-                it++;
+        vector<Movie> result;
+        for (int i = mlist.size(); i >= 0; i--) {
+            bool mvgenre = find(mlist[i].genre.begin(), mlist[i].genre.end(), gnre) != mlist[i].genre.end();
+            if (mvgenre) {
+                result.push_back(mlist[i]);
             }
         }
-        for (auto it = qlist.begin(); it != qlist.end();) {
-            bool mvgenre = find(it->genre.begin(), it->genre.end(), gnre) != it->genre.end();
-            if (!mvgenre) {
-                it = qlist.erase(it);
-            }
-            else {
-                it++;
-            }
-        }
+        mlist = result;
+        qlist = result;
     }
     //filter to specific director
     void filterbydirector(string& drctr) {
-        for (auto it = mlist.begin(); it != mlist.end();) {
-            bool mvdrctr = find(it->director.begin(), it->director.end(), drctr) != it->director.end();
-            if (!mvdrctr) {
-                it = mlist.erase(it);
-            }
-            else {
-                it++;
+        vector<Movie> result;
+        for (int i = mlist.size(); i >= 0; i--) {
+            bool mvdrctr = find(mlist[i].director.begin(), mlist[i].director.end(), drctr) != mlist[i].director.end();
+            if (mvdrctr) {
+                result.push_back(mlist[i]);
             }
         }
-        for (auto it = qlist.begin(); it != qlist.end();) {
-            bool mvdrctr = find(it->director.begin(), it->director.end(), drctr) != it->director.end();
-            if (!mvdrctr) {
-                it = qlist.erase(it);
-            }
-            else {
-                it++;
-            }
-        }
+        mlist = result;
+        qlist = result;
     }
     //filter to specific writer
     void filterbywriter(string& wrtr) {
-        for (auto it = mlist.begin(); it != mlist.end();) {
-            bool mvwrtr = find(it->writer.begin(), it->writer.end(), wrtr) != it->writer.end();
-            if (!mvwrtr) {
-                it = mlist.erase(it);
-            }
-            else {
-                it++;
+        vector<Movie> result;
+        for (int i = mlist.size(); i >= 0; i--) {
+            bool mvwrtr = find(mlist[i].writer.begin(), mlist[i].writer.end(), wrtr) != mlist[i].writer.end();
+            if (mvwrtr) {
+                result.push_back(mlist[i]);
             }
         }
-        for (auto it = qlist.begin(); it != qlist.end();) {
-            bool mvwrtr = find(it->writer.begin(), it->writer.end(), wrtr) != it->writer.end();
-            if (!mvwrtr) {
-                it = qlist.erase(it);
-            }
-            else {
-                it++;
-            }
-        }
+        mlist = result;
+        qlist = result;
     }
 
     // Recommend basic function
     void recommend() {
         int count = 1;
-        for (auto it = mlist.begin(); it != mlist.end() && count < 11;) {
+        for (int i = 0; i < 10; i++) {
+            auto it = mlist[i];
             cout << "Recommended Movie " << count << ":" << endl;
-            cout << "Title: " << it->title << endl;
-            cout << "Year: " << it->year << endl;
-            cout << "Rating: " << it->rating << endl;
+            cout << "Title: " << it.title << endl;
+            cout << "Year: " << it.year << endl;
+            cout << "Rating: " << it.rating << endl;
             cout << "Genres: ";
-            for (string g : it->genre) {
+            for (string g : it.genre) {
                 cout << g << ", ";
             }
             cout << endl;
             cout << "Directors: ";
-            for (string d : it->director) {
+            for (string d : it.director) {
                 cout << d << ", ";
             }
             cout << endl;
             cout << endl;
-            it++;
             count++;
         }
     }
