@@ -308,7 +308,7 @@ public:
             return mv1.year > mv2.year;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        mergesort(mlist, 0, size - 1, compareyear);
+        mergesort(mlist, 0, mlist.size() - 1, compareyear);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -318,7 +318,7 @@ public:
             return mv1.year > mv2.year;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, size - 1, compareyear);
+        quicksort(qlist, 0, qlist.size() - 1, compareyear);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -328,7 +328,7 @@ public:
             return mv1.rating > mv2.rating;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        mergesort(mlist, 0, size - 1, comparerating);
+        mergesort(mlist, 0, mlist.size() - 1, comparerating);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -338,7 +338,7 @@ public:
             return mv1.rating > mv2.rating;
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, size - 1, comparerating);
+        quicksort(qlist, 0, qlist.size() - 1, comparerating);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -356,7 +356,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        mergesort(mlist, 0, size - 1, comparegenre);
+        mergesort(mlist, 0, mlist.size() - 1, comparegenre);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -374,7 +374,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, size - 1, comparegenre);
+        quicksort(qlist, 0, qlist.size() - 1, comparegenre);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -397,7 +397,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        mergesort(mlist, 0, size - 1, comparedirector);
+        mergesort(mlist, 0, mlist.size() - 1, comparedirector);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -420,7 +420,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, size - 1, comparedirector);
+        quicksort(qlist, 0, qlist.size() - 1, comparedirector);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -443,7 +443,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        mergesort(mlist, 0, size - 1, comparewriter);
+        mergesort(mlist, 0, mlist.size() - 1, comparewriter);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
@@ -466,7 +466,7 @@ public:
             }
         };
         auto starttime = chrono::high_resolution_clock::now();
-        quicksort(qlist, 0, size - 1, comparewriter);
+        quicksort(qlist, 0, qlist.size() - 1, comparewriter);
         auto endtime = chrono::high_resolution_clock::now();
         chrono::duration<double> time = endtime - starttime;
         return time.count();
